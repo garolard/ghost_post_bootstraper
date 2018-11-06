@@ -44,18 +44,18 @@ def copy_post_template(path):
     if not os.path.exists(os.getcwd() + '/template.md'):
         raise Exception('El archivo plantilla de post no existe. Se requiere un archivo \'template.md\' para usar como plantilla')
 
-    if os.path.isfile(path + '/post.md'):
+    if os.path.isfile(path + '/template.md'):
         raise Exception('El archivo de post ya existe')
 
-    copyfile(os.getcwd() + '/template.md', path + '/post.md')
+    copyfile(os.getcwd() + '/template.md', path + '/template.md')
     info('Copiado archivo de plantilla de post')
 
 
 def copy_scripts(path):
-    if not os.path.exists(os.getcwd() + '/process.py'):
+    if not os.path.exists(os.getcwd() + '/scripts/process.py'):
         raise Exception('No existe o no se encuentra el script de procesado de proyecto.')
     
-    copyfile(os.getcwd() + '/process.py', path + '/process.py')
+    copyfile(os.getcwd() + '/scripts/process.py', path + '/process.py')
     info('Copiado script de procesado de proyecto')
 
 
