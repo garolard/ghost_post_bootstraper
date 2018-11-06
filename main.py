@@ -2,33 +2,40 @@ import argparse
 import os
 import time
 import datetime
+import logging
+
+from shutil import copyfile
 
 
-def create_work_dir_in_path(path, root='d:/WS/'):
+def info(msg):
+    ts = time.time()
+    timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+    print(timestamp + ' INFO: ' + msg)
+
+
+def build_absolute_path(path, root='d:/WS/'):
     if not path:
-        error('La ruta no puede estar en blanco')
-        return
+        raise Exception('La ruta no puede estar en blanco')
 
     if (os.path.isdir(root + path)):
-        error('El directorio ya existe')
-        return
+        raise Exception('El directorio ' + root + path + ' ya existe')
 
-    os.mkdir(root + path)
+    return root + path
+
+
+def create_work_dir_in_path(path):
+    os.mkdir(path)
     info('Creado directorio de post')
 
 
-def info(message):
-    log(message)
+def create_post_template(path):
+    if not os.path.exists(os.getcwd() + '/template.md'):
+        raise Exception('El archivo plantilla de post no existe. Se requiere un archivo \'template.md\' para usar como plantilla')
 
+    if os.path.isfile(path + '/post.md'):
+        raise Exception('El archivo de post ya existe')
 
-def error(message):
-    log(message, severity=' ERROR: ')
-
-
-def log(message, severity=' INFO:  '):
-    ts = time.time()
-    timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-    print(timestamp + severity + message)
+    copyfile(os.getcwd() + '/template.md', path + '/post.md')
 
 
 if __name__ == '__main__':
@@ -39,7 +46,12 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     info('Iniciando bootstraper')
-    # Esto deberia generar un error y salir del programa
-    create_work_dir_in_path(args.path)
 
-    info('Finalizando bootstraper')
+    try:
+        absolute_path = build_absolute_path(args.path)
+        create_work_dir_in_path(absolute_path)
+        create_post_template(absolute_path)
+    except Exception as e:
+        logging.exception(e)
+    finally:
+        info('Finalizando bootstraper')
