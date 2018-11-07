@@ -3,8 +3,16 @@ import os
 import time
 import datetime
 import logging
+import locale
 
 from shutil import copyfile
+
+
+# Hacer esto es una mala idea aparentemente
+# porque locale es global y podria joder otras
+# partes del a aplicacion... Como esto es una
+# herramienta personal me la pela
+locale.setlocale(locale.LC_ALL, locale='Spanish')
 
 
 def info(msg):
