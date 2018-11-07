@@ -17,53 +17,53 @@ def info(msg):
 # en el parser de argumentos
 def build_absolute_path(path, root):
     if not path:
-        raise Exception('La ruta no puede estar en blanco')
+        raise Exception('Path cannot be empty')
 
     if (os.path.isdir(root + path)):
-        raise Exception('El directorio ' + root + path + ' ya existe')
+        raise Exception(root + path + ' directory already exists')
 
     return root + path
 
 
 def create_work_dir_in_path(path):
     os.mkdir(path)
-    info('Creado directorio de post')
+    info('Post directory created')
 
 
 def create_images_dirs(path):
     if os.path.isdir(path + '/images_input'):
-        raise Exception('El directorio de entrada de imágenes ya existe')
+        raise Exception('images input dir already exists')
     if os.path.isdir(path + '/images_output'):
-        raise Exception('El directorio de salida de imágenes ya existe')
+        raise Exception('images output dir already exists')
 
     for p in [path + '/images_input', path + '/images_output']:
         os.mkdir(p)
 
-    info('Creados directorios de imágenes')
+    info('Images dirs created')
 
 
 def copy_post_template(path):
     if not os.path.exists(os.getcwd() + '/template.md'):
-        raise Exception('El archivo plantilla de post no existe. Se requiere un archivo \'template.md\' para usar como plantilla')
+        raise Exception('Post template file does not exists. A template.md file is required')
 
     if os.path.isfile(path + '/template.md'):
-        raise Exception('El archivo de post ya existe')
+        raise Exception('The post destination file already exists')
 
     copyfile(os.getcwd() + '/template.md', path + '/template.md')
 
-    info('Copiado archivo de plantilla de post')
+    info('Post template copied')
 
 
 def copy_scripts(path):
     if not os.path.exists(os.getcwd() + '/scripts/process.py'):
-        raise Exception('No existe o no se encuentra el script de procesado de proyecto.')
+        raise Exception('Post process script does not exists')
 
     copyfile(os.getcwd() + '/scripts/process.py', path + '/process.py')
-    info('Copiado script de procesado de proyecto')
+    info('Post process script copied')
 
 
 def init(path, rootPath):
-    info('Iniciando bootstraper')
+    info('Starting bootstraper')
 
     try:
         absolute_path = build_absolute_path(path, rootPath)
@@ -74,14 +74,14 @@ def init(path, rootPath):
     except Exception as e:
         logging.exception(e)
     finally:
-        info('Finalizando bootstraper')
+        info('Finishing bootstraper')
 
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('path', metavar='path', help='La ruta donde se creará el proyecto de post')
-    parser.add_argument('--root', help='Root path in which the project will be created', default='d:/WS/', dest='rootPath')
+    parser.add_argument('path', metavar='path', help='path in which the project will be created')
+    parser.add_argument('--root', help='absolute root path for the project', default='d:/WS/', dest='rootPath')
 
     args = parser.parse_args()
 
