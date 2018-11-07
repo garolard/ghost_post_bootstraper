@@ -9,7 +9,8 @@ from shutil import copyfile
 
 def info(msg):
     ts = time.time()
-    timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+    timestamp = datetime.datetime.fromtimestamp(
+        ts).strftime('%Y-%m-%d %H:%M:%S')
     print(timestamp + ' INFO: ' + msg)
 
 
@@ -44,7 +45,8 @@ def create_images_dirs(path):
 
 def copy_post_template(path):
     if not os.path.exists(os.getcwd() + '/template.md'):
-        raise Exception('Post template file does not exists. A template.md file is required')
+        raise Exception(
+            'Post template file does not exists. A template.md file is required')
 
     if os.path.isfile(path + '/template.md'):
         raise Exception('The post destination file already exists')
@@ -80,8 +82,12 @@ def init(path, rootPath):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('path', metavar='path', help='path in which the project will be created')
-    parser.add_argument('--root', help='absolute root path for the project', default='d:/WS/', dest='rootPath')
+    parser.add_argument('path',
+                        metavar='path',
+                        help='path in which the project will be created')
+    parser.add_argument('--root',
+                        help='absolute root path for the project',
+                        default='d:/WS/', dest='rootPath')
 
     args = parser.parse_args()
 
