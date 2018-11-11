@@ -3,6 +3,9 @@ import re
 import time
 import datetime
 
+from utils.ioutils import get_file_content
+from os.path import join, isfile
+
 
 # Lo de ir meneando esta funcion por todo
 # el proyecto no me gusta nada...
@@ -40,8 +43,13 @@ def get_month_name():
 
 
 def require_template_file():
-    if not os.path.isfile(os.getcwd() + '/template.md'):
-        raise Exception('No se encuentra el archivo de plantilla de post')
+    if not isfile(join(os.getcwd(), 'template.md')):
+        raise FileNotFoundError('A template.md file is needed to process post')
+
+
+def require_links_file():
+    if not isfile(join(os.getcwd(), 'links.txt')):
+        raise FileNotFoundError('A links.txt file is needed to process post')
 
 
 def read_template():
@@ -72,6 +80,9 @@ def replace_date(content):
 def replace_links(content):
     info("Replacing links")
     require_template_file()
+    require_links_file()
+
+    # falta leer el archivo de enlaces y reemplazar en la plantilla de post
 
     pattern = r'\[(.*?)\]\((.*?)\)'
 

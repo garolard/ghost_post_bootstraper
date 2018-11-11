@@ -66,6 +66,11 @@ def copy_utils(destpath):
     [copyfile(join(srcpath, f), join(dstpath, f)) for f in filestocopy]
 
 
+def create_links_file(destpath):
+    info('Creating links.txt file')
+    open(join(destpath, 'links.txt'), 'a').close()
+
+
 def init(path, rootPath):
     info('Starting bootstraper')
 
@@ -76,6 +81,7 @@ def init(path, rootPath):
         copy_post_template(absolute_path)
         copy_scripts(absolute_path)
         copy_utils(absolute_path)
+        create_links_file(absolute_path)
     except Exception as e:
         logging.exception(e)
     finally:
