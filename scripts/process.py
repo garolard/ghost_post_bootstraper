@@ -4,6 +4,15 @@ import time
 import datetime
 
 
+# Lo de ir meneando esta funcion por todo
+# el proyecto no me gusta nada...
+def info(msg):
+    ts = time.time()
+    timestamp = datetime.datetime.fromtimestamp(
+        ts).strftime('%Y-%m-%d %H:%M:%S')
+    print(timestamp + ' INFO: ' + msg)
+
+
 # Esto es una cutrez de escalas atomicas
 # pero la alternativa es instalarse babel
 # y jugar con sus funciones de formateo
@@ -36,16 +45,20 @@ def require_template_file():
 
 
 def read_template():
+    info("Reading post template")
     require_template_file()
 
     fp = os.getcwd() + '/template.md'
     with open(fp, 'r', encoding='utf8') as f:
         content = f.read()
 
+    info("Template correctly read")
+
     return content
 
 
 def replace_date(content):
+    info("Replacing date")
     require_template_file()
 
     pattern = r'\{{2}(.*?)\}{2}'
@@ -57,6 +70,7 @@ def replace_date(content):
 
 
 def replace_links(content):
+    info("Replacing links")
     require_template_file()
 
     pattern = r'\[(.*?)\]\((.*?)\)'
@@ -67,6 +81,7 @@ def replace_links(content):
 
 
 def write_post(content):
+    info("Writing content into destination file")
     with open(os.getcwd() + '/post.md', 'w', encoding='utf8') as f:
         f.write(content)
 

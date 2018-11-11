@@ -3,16 +3,8 @@ import os
 import time
 import datetime
 import logging
-import locale
 
 from shutil import copyfile
-
-
-# Hacer esto es una mala idea aparentemente
-# porque locale es global y podria joder otras
-# partes del a aplicacion... Como esto es una
-# herramienta personal me la pela
-locale.setlocale(locale.LC_ALL, locale='Spanish')
 
 
 def info(msg):
@@ -95,7 +87,7 @@ if __name__ == '__main__':
                         help='path in which the project will be created')
     parser.add_argument('--root',
                         help='absolute root path for the project',
-                        default='d:/WS/', dest='rootPath')
+                        default='d:/WS/BLOG/', dest='rootPath')
 
     args = parser.parse_args()
 
