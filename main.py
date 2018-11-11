@@ -5,6 +5,8 @@ import datetime
 import logging
 
 from shutil import copyfile
+from os.path import join, isfile
+from os import listdir
 
 
 def info(msg):
@@ -14,24 +16,14 @@ def info(msg):
     print(timestamp + ' INFO: ' + msg)
 
 
-# root path no viene vacio porque tiene valor por defecto
-# en el parser de argumentos
-def build_absolute_path(path, root):
-    if not path:
-        raise Exception('Path cannot be empty')
-
-    if (os.path.isdir(root + path)):
-        raise Exception(root + path + ' directory already exists')
-
-    return root + path
-
-
 def create_work_dir_in_path(path):
     os.mkdir(path)
     info('Post directory created')
 
 
 def create_images_dirs(path):
+    info('Creating image dirs')
+
     if os.path.isdir(path + '/images_input'):
         raise Exception('images input dir already exists')
     if os.path.isdir(path + '/images_output'):
@@ -40,10 +32,10 @@ def create_images_dirs(path):
     for p in [path + '/images_input', path + '/images_output']:
         os.mkdir(p)
 
-    info('Images dirs created')
-
 
 def copy_post_template(path):
+    info('Copying templates')
+
     if not os.path.exists(os.getcwd() + '/template.md'):
         raise Exception(
             'Post template file does not exists. A template.md file is required')
@@ -53,26 +45,37 @@ def copy_post_template(path):
 
     copyfile(os.getcwd() + '/template.md', path + '/template.md')
 
-    info('Post template copied')
-
 
 def copy_scripts(path):
+    info('Copying main scripts')
+
     if not os.path.exists(os.getcwd() + '/scripts/process.py'):
         raise Exception('Post process script does not exists')
 
     copyfile(os.getcwd() + '/scripts/process.py', path + '/process.py')
-    info('Post process script copied')
+
+
+def copy_utils(destpath):
+    info('Copying util files')
+
+    os.mkdir(join(destpath, 'utils/'))
+
+    srcpath = join(os.getcwd(), 'utils/')
+    dstpath = join(destpath, 'utils/')
+    filestocopy = [f for f in listdir(srcpath) if isfile(join(srcpath, f))]
+    [copyfile(join(srcpath, f), join(dstpath, f)) for f in filestocopy]
 
 
 def init(path, rootPath):
     info('Starting bootstraper')
 
     try:
-        absolute_path = build_absolute_path(path, rootPath)
+        absolute_path = os.path.join(rootPath, path)
         create_work_dir_in_path(absolute_path)
         create_images_dirs(absolute_path)
         copy_post_template(absolute_path)
         copy_scripts(absolute_path)
+        copy_utils(absolute_path)
     except Exception as e:
         logging.exception(e)
     finally:

@@ -6,20 +6,16 @@ Por eso me he tomado el tiempo de buscar buenas ofertas para esta semana en vari
 
 ## Ofertas Xbox
 
-- [Enlace oferta](http://url-oferta.com)
+{{xbox}}
 
 ## Ofertas PS4
 
-- [Enlace oferta](http://url-oferta.com)
+{{ps4}}
 
 ## Ofertas Switch
 
-- [Enlace oferta](http://url-oferta.com)
+{{switch}}
 
 ## Ofertas PC
 
-- [Enlace oferta](http://url-oferta.com)
-
-## Ofertas Nintendo 3DS
-
-- [Enlace oferta](http://url-oferta.com)
+{{pc}}
